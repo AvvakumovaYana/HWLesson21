@@ -13,33 +13,29 @@ import static io.qameta.allure.Allure.step;
 public class WikipediaTests extends TestBase {
 
     @Test
-    @Tag("android")
-    @DisplayName("Проверка поиска статьи по запросу")
-    void searchTest() {
+    @DisplayName("Проверка стартовой страницы википедии")
+    void wikipediaOnboardingTest() {
 
-        step("Вводим текст в строку поиска", () -> {
-            $(accessibilityId("Search Wikipedia")).click();
-            $(id("org.wikipedia.alpha:id/search_src_text")).sendKeys("Appium");
+        step("Проверяем стартовую страницу", () -> {
+            $(id("org.wikipedia.alpha:id/primaryTextView")).shouldHave(text("The Free Encyclopedia"));
         });
-        step("Проверяем отображение результатов поиска", () -> {
-                $$(id("page_list_item_title"))
-                .shouldHave(sizeGreaterThan(0));
+        step("Переходим на вторую страницу", () -> {
+            $(id("org.wikipedia.alpha:id/fragment_onboarding_forward_button")).click();
         });
-    }
-
-    @Test
-    @Tag("android")
-    @DisplayName("Проверка открытия найденной статьи")
-    void openPageTest() {
-        step("Вводим текст в строку поиска", () -> {
-            $(accessibilityId("Search Wikipedia")).click();
-            $(id("org.wikipedia.alpha:id/search_src_text")).sendKeys("Appium");
+        step("Проверяем вторую страницу", () -> {
+            $(id("org.wikipedia.alpha:id/primaryTextView")).shouldHave(text("New ways to explore"));
         });
-        step("Выбираем первый результат поиска", () -> {
-            $(id("page_list_item_title")).click();
+        step("Переходим на третью страницу", () -> {
+            $(id("org.wikipedia.alpha:id/fragment_onboarding_forward_button")).click();
         });
-        step("Проверяем страницу статьи", () -> {
-            $(id("org.wikipedia.alpha:id/view_wiki_error_text")).shouldHave(text("An error occurred"));
+        step("Проверяем третью страницу", () -> {
+            $(id("org.wikipedia.alpha:id/primaryTextView")).shouldHave(text("Reading lists with sync"));
+        });
+        step("Переходим на четвертую страницу", () -> {
+            $(id("org.wikipedia.alpha:id/fragment_onboarding_forward_button")).click();
+        });
+        step("Проверяем четвертую страницу", () -> {
+            $(id("org.wikipedia.alpha:id/primaryTextView")).shouldHave(text("Data & Privacy"));
         });
     }
 }

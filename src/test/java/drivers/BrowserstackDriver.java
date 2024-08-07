@@ -2,7 +2,7 @@ package drivers;
 
 import com.codeborne.selenide.WebDriverProvider;
 import config.AuthConfig;
-import config.BrowserstackConfig;
+import config.DeviceConfig;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class BrowserstackDriver implements WebDriverProvider {
-    private static final BrowserstackConfig config = ConfigFactory.create(BrowserstackConfig.class);
+    private static final DeviceConfig deviceConfig = ConfigFactory.create(DeviceConfig.class);
     private static final AuthConfig authConfig = ConfigFactory.create(AuthConfig.class);
 
     @Nonnull
@@ -25,22 +25,21 @@ public class BrowserstackDriver implements WebDriverProvider {
         caps.setCapability("browserstack.user", authConfig.username());
         caps.setCapability("browserstack.key", authConfig.password());
 
-        caps.setCapability("app", config.app());
+        caps.setCapability("app", deviceConfig.app());
 
-        caps.setCapability("device", config.deviceName());
-        caps.setCapability("os_version", config.platformVersion());
+        caps.setCapability("device", deviceConfig.deviceName());
+        caps.setCapability("os_version", deviceConfig.platformVersion());
 
-        caps.setCapability("project", config.projectName());
-        caps.setCapability("build", config.buildName());
-        caps.setCapability("name", config.name());
-        caps.setCapability("url", config.browserstackUrl());
+        caps.setCapability("project", deviceConfig.projectName());
+        caps.setCapability("build", deviceConfig.buildName());
+        caps.setCapability("name", deviceConfig.name());
+        caps.setCapability("url", deviceConfig.url());
 
-        System.out.println("APP: " + config.app());
+        System.out.println("APP: " + deviceConfig.app());
 
         try {
-            return new RemoteWebDriver(
-                    new URL(config.browserstackUrl()), caps);
-        } catch (MalformedURLException  e) {
+            return new RemoteWebDriver(new URL(deviceConfig.url()), caps);
+        } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
     }
