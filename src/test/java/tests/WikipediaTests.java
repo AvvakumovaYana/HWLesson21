@@ -2,6 +2,7 @@ package tests;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
@@ -35,6 +36,7 @@ public class WikipediaTests extends TestBase {
         step("Проверяем четвертую страницу", () -> {
             $(id("org.wikipedia.alpha:id/primaryTextView")).shouldHave(text("Data & Privacy"));
         });
+        $(By.("org.wikipedia.alpha:id/fragment_onboarding_forward_button")).click();
     }
 }
 
